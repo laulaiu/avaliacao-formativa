@@ -34,6 +34,8 @@ public class Consulta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consulta);
 
+        listaV = findViewById(R.id.lista);
+
 /*        DocumentReference docRef = conexao .collection("1").document(String.valueOf(indice));
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
