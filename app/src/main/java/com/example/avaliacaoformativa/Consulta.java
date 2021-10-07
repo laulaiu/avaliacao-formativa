@@ -36,22 +36,6 @@ public class Consulta extends AppCompatActivity {
 
         listaV = findViewById(R.id.lista);
 
-/*        DocumentReference docRef = conexao .collection("1").document(String.valueOf(indice));
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });*/
 
 
         listarL();
@@ -73,14 +57,14 @@ public class Consulta extends AppCompatActivity {
                             List<Dados> lista = new ArrayList<Dados>();
 
                             for(QueryDocumentSnapshot doc : task.getResult()){
-                                // if( ! doc.get("status").equals("0")){
+                                 if( ! doc.get("status").equals("0")){
                                 Dados  p = new Dados(
                                         doc.get("chave").toString(),
                                         doc.get("autenticacao").toString(),
                                         doc.get("status").toString()
                                 );
                                 lista.add(p);
-                                //  }
+                                  }
                             }
                             ArrayAdapter<Dados> adapter = new ArrayAdapter<>(
                                     Consulta.this,
