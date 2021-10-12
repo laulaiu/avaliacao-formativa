@@ -35,37 +35,31 @@ public class Consulta extends AppCompatActivity {
         setContentView(R.layout.activity_consulta);
 
         listaV = findViewById(R.id.lista);
-
-
-
         listarL();
-
     }
 
 
     public void listarL(){
-
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("1")
+        db.collection("banco")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             List<Dados> lista = new ArrayList<Dados>();
-
                             for(QueryDocumentSnapshot doc : task.getResult()){
+
                                  if( ! doc.get("status").equals("0")){
-                                Dados  p = new Dados(
-                                        doc.get("chave").toString(),
-                                        doc.get("autenticacao").toString(),
-                                        doc.get("status").toString()
-                                );
-                                lista.add(p);
+                                    Dados  p = new Dados(
+                                            doc.getId().toString(),
+                                            doc.get("autenticacao").toString(),
+                                            doc.get("status").toString()
+                                    );
+                                    lista.add(p);
                                   }
                             }
+                            Toast.makeText(Consulta.this, "Conexão OK!", Toast.LENGTH_SHORT).show();
                             ArrayAdapter<Dados> adapter = new ArrayAdapter<>(
                                     Consulta.this,
                                     android.R.layout.simple_list_item_1, lista);

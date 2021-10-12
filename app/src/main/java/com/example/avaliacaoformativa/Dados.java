@@ -9,7 +9,7 @@ public class Dados {
 
     @Override
     public String toString(){
-        return "Chave: " + chave +
+        return " Chave: " + chave +
                 "\n\rAutenticação: " + autenticacao +
                 "\n\rStatus " + status ;
     }
@@ -20,7 +20,24 @@ public class Dados {
         this.status = status;
     }
 
-    public void setChave(String chave) {
+    public String getChave() {
+        return chave;
+    }
+
+    public String getAutenticacao() {
+        return autenticacao;
+
+    }
+
+    public String getStatus() {
+        return status;
+
+
+    }
+
+    public void setChave(String chave)
+    {
+        chave = chave + " na privada";
         this.chave = chave;
     }
 

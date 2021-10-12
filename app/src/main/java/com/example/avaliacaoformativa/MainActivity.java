@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private Button consulta;
+    private Button autenticar;
     private EditText chave;
 
 
@@ -38,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         consulta = findViewById(R.id.consulta);
+        autenticar = findViewById(R.id.btn_autenticar);
         chave   = findViewById(R.id.chaveEdt);
+
+
 
 /*        CollectionReference banco = conexao.collection("1");
         banco.document("1").update("status","1");*/
@@ -53,74 +58,59 @@ public class MainActivity extends AppCompatActivity {
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent consulta = new Intent(MainActivity.this, Consulta.class);
                 startActivity(consulta);
-
             }
         });
 
     }
 
-    public void banco(){
-
-
-
+    public void banco2(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("1")
+        db.collection("2").document();
+
+    }
+
+
+    public void banco1(View view){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("banco")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            List<Dados> lista = new ArrayList<Dados>();
-
-
-
                             for(QueryDocumentSnapshot doc : task.getResult()){
 
-                                if(  doc.get("chave").equals(chave.getText().toString())){
+                                if(  doc.getId().equals(chave.getText().toString())){
 
-                                    Dados  p = new Dados(
-                                            doc.get("chave").toString(),
-                                            doc.get("autenticacao").toString(),
-                                            doc.get("status").toString()
-                                    );
-
-                                    if(     doc.get("status").toString().equals("1")){
-                                        update(String.valueOf(doc),"0");
+                                    if( doc.get("status").toString().equals("1")){
+                                        update(doc.getId(),"0");
+                                        message_auth(doc.get("autenticacao").toString());
                                     }else{
-                                        update(String.valueOf(doc),"1");
+                                        update(doc.getId(),"1");
+                                        message_auth(doc.get("autenticacao").toString());
                                     }
-
-                                    lista.add(p);
-
 
                                 }
                             }
-
-/*                                ArrayAdapter<Dados> adapter = new ArrayAdapter<>(
-                                    Consulta.this,
-                                    android.R.layout.simple_list_item_1, lista);
-                            listaV.setAdapter(adapter);*/
-
-                        }else{
-                            Toast.makeText(MainActivity.this, "Erro ao resgatar", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-
     }
+
+    public void message_auth(String autenticacao){
+        Toast.makeText(MainActivity.this, "Auth: "+autenticacao, Toast.LENGTH_SHORT).show();
+    }
+
+
 
     public void update(String documento, String valor){
-
-        CollectionReference banco = conexao.collection("1");
+        //colocar a collectionPath que sera atualizada.
+        CollectionReference banco = conexao.collection("banco");
         banco.document(documento).update("status",valor);
     }
-
-
-
 
 }
