@@ -28,17 +28,8 @@ public class Dados {
         return autenticacao;
 
     }
-
     public String getStatus() {
         return status;
-
-
-    }
-
-    public void setChave(String chave)
-    {
-        chave = chave + " na privada";
-        this.chave = chave;
     }
 
     public void setAutenticacao(String autenticacao) {

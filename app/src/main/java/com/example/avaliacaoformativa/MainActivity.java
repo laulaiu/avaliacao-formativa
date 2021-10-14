@@ -43,18 +43,6 @@ public class MainActivity extends AppCompatActivity {
         autenticar = findViewById(R.id.btn_autenticar);
         chave   = findViewById(R.id.chaveEdt);
 
-
-
-/*        CollectionReference banco = conexao.collection("1");
-        banco.document("1").update("status","1");*/
-
-       // Task<Void> banco = conexao.collection("1").document("1").update("status","1");
-/*
-        Map<String, Object> data1 = new HashMap<>();
-        data1.put("status", "0");
-        banco.document("1").set(data1);*/
-
-
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,13 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(consulta);
             }
         });
-
-    }
-
-    public void banco2(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("2").document();
 
     }
 
@@ -101,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    //Mostra a menssagem para o usuario
     public void message_auth(String autenticacao){
         Toast.makeText(MainActivity.this, "Auth: "+autenticacao, Toast.LENGTH_SHORT).show();
     }
 
-
-
+    //atualiza o valor do banco
     public void update(String documento, String valor){
         //colocar a collectionPath que sera atualizada.
         CollectionReference banco = conexao.collection("banco");
