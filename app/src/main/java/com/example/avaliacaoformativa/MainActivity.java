@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,12 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void notificacao(String content, String title){
+        Intent bsc = new Intent(this, Consulta.class);
+        bsc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent bsc_PI = PendingIntent.getActivity(this, 0, bsc, 0);
+
         NotificationCompat.Builder contrutor = new NotificationCompat.Builder(this, ID_CANAL)
                 .setSmallIcon(R.drawable.icone_notificacao)
                 .setContentTitle(content)
                 .setContentText(title)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setContentIntent(bsc_PI);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
         notificationManager.notify(CHANNEL_ID , contrutor.build());
 
@@ -112,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                                         update(doc.getId(),"1");
                                     }
                                     notificacao("FIREBASE" ,"Auth: "+doc.get("autenticacao").toString());
-                                    Log.d(("Ola, mundo");
+                                    Log.d("leo_app","Ola, mundo");
 
                                 }else{
 
