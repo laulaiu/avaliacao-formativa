@@ -2,8 +2,13 @@ package com.example.avaliacaoformativa;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +34,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Button consulta;
     private Button autenticar;
+    private Button btn_notificacao;
     private EditText chave;
+    private NotificationManager servico;
+    private final int CHANNEL_ID = 123;
 
 
-    private FirebaseFirestore conexao = FirebaseFirestore.getInstance(); ;
+    private FirebaseFirestore conexao = FirebaseFirestore.getInstance();
+    private final String ID_CANAL = "canalNotificacaoApp";
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         consulta = findViewById(R.id.consulta);
         autenticar = findViewById(R.id.btn_autenticar);
         chave   = findViewById(R.id.chaveEdt);
+        btn_notificacao = findViewById(R.id.btn_notificacao);
 
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +65,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        criarCanalNotificacao();
+
+        btn_notificacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificacao();
+            }
+        });
+    }
+
+
+
+    public void notificacao(){
+        NotificationCompat.Builder contrutor = new NotificationCompat.Builder(this, ID_CANAL)
+                //Colocar icone aqui (Obrigatorio)
+                .setContentTitle("textTitle")
+                .setContentText("textContent")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+        notificationManager.notify(CHANNEL_ID , contrutor.build());
+
+    }
+
+    private void criarCanalNotificacao() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(ID_CANAL, getString(R.string.canal_nome), NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(getString(R.string.channel_description));
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 
