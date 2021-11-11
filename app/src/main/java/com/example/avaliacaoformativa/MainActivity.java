@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         consulta = findViewById(R.id.consulta);
         autenticar = findViewById(R.id.btn_autenticar);
         chave   = findViewById(R.id.chaveEdt);
-        btn_notificacao = findViewById(R.id.btn_notificacao);
+        criarCanalNotificacao();
 
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,23 +65,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        criarCanalNotificacao();
-
-        btn_notificacao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                notificacao();
-            }
-        });
     }
 
 
 
-    public void notificacao(){
+    public void notificacao(String content, String title){
         NotificationCompat.Builder contrutor = new NotificationCompat.Builder(this, ID_CANAL)
-                //Colocar icone aqui (Obrigatorio)
-                .setContentTitle("textTitle")
-                .setContentText("textContent")
+                .setSmallIcon(R.drawable.icone_notificacao)
+                .setContentTitle(content)
+                .setContentText(title)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
@@ -115,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
                                     if( doc.get("status").toString().equals("1")){
                                         update(doc.getId(),"0");
-                                        message_auth(doc.get("autenticacao").toString());
+                                        notificacao(doc.get("autenticacao").toString() ,"STATUS"+doc.get("status").toString().toString());
                                     }else{
                                         update(doc.getId(),"1");
-                                        message_auth(doc.get("autenticacao").toString());
+                                        notificacao(doc.get("autenticacao").toString() ,"STATUS: "+doc.get("status").toString().toString());
                                     }
 
                                 }
@@ -126,11 +118,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    //Mostra a menssagem para o usuario
-    public void message_auth(String autenticacao){
-        Toast.makeText(MainActivity.this, "Auth: "+autenticacao, Toast.LENGTH_SHORT).show();
     }
 
     //atualiza o valor do banco
