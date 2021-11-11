@@ -107,12 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
                                     if( doc.get("status").toString().equals("1")){
                                         update(doc.getId(),"0");
-                                        notificacao(doc.get("autenticacao").toString() ,"STATUS"+doc.get("status").toString().toString());
+
                                     }else{
                                         update(doc.getId(),"1");
-                                        notificacao(doc.get("autenticacao").toString() ,"STATUS: "+doc.get("status").toString().toString());
                                     }
+                                    notificacao("FIREBASE" ,"Auth: "+doc.get("autenticacao").toString());
+                                    Log.d(("Ola, mundo");
 
+                                }else{
+
+                                    notificacao("FIREBASE" ,"Chave não encontrada");
                                 }
                             }
                         }
