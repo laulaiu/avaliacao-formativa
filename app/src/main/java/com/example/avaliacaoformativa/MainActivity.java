@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         chave   = findViewById(R.id.chaveEdt);
         criarCanalNotificacao();
 
+
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,17 +118,19 @@ public class MainActivity extends AppCompatActivity {
                                     }else{
                                         update(doc.getId(),"1");
                                     }
-                                    notificacao("FIREBASE" ,"Auth: "+doc.get("autenticacao").toString());
-                                    Log.d("leo_app","Ola, mundo");
-
+                                    messageNotification(""+doc.get("autenticacao").toString());
+                                    break;
                                 }else{
-
-                                    notificacao("FIREBASE" ,"Chave não encontrada");
+                                    messageNotification("Chave não cadastrada");
                                 }
                             }
                         }
                     }
                 });
+    }
+
+    public void messageNotification(String msg){
+        notificacao("FIREBASE" ,msg);
     }
 
     //atualiza o valor do banco
